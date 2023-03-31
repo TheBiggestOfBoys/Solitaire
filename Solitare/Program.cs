@@ -1,11 +1,8 @@
-﻿using Egyptian_Rat_Slap;
-using System;
-
-namespace Solitare
+﻿namespace Solitare
 {
     internal class Program
     {
-        public static List<List<Card>> board = new();
+        public static List<List<Card>> board;
         public static List<Card> deck = new();
         public static Random random = new();
 
@@ -20,6 +17,18 @@ namespace Solitare
                 }
             }
             Shuffle(deck);
+
+            // Fill the board
+            int cardNumber = 0;
+            for (int x = 0; x <= 7; x++)
+            {
+                for (int y = 0; y <= x; y++)
+                {
+                    board[0][x] = deck[cardNumber];
+                    cardNumber++;
+                }
+            }
+
             DisplayBoard();
             PrintCards(deck);
         }
@@ -30,15 +39,22 @@ namespace Solitare
             {
                 foreach (Card card in list)
                 {
-                    if ((card.Suit == Suits.Hearts) || (card.Suit == Suits.Diamonds))
+                    if (card.Revealed == true)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        if ((card.Suit == Suits.Hearts) || (card.Suit == Suits.Diamonds))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                        }
+                        if ((card.Suit == Suits.Clubs) || (card.Suit == Suits.Spades))
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                        }
+                        Console.WriteLine(card.Name);
                     }
-                    if ((card.Suit == Suits.Clubs) || (card.Suit == Suits.Spades))
+                    else
                     {
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine("?");
                     }
-                    Console.WriteLine(card.Name);
                 }
                 Console.ResetColor();
             }

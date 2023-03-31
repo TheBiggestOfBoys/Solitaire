@@ -1,4 +1,4 @@
-﻿namespace Egyptian_Rat_Slap
+﻿namespace Solitare
 {
     internal enum Suits
     {
