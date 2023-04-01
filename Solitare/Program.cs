@@ -68,7 +68,7 @@
                         {
                             Console.ForegroundColor = ConsoleColor.DarkGray;
                         }
-                        Console.WriteLine(ConvertToChar(card));
+                        Console.WriteLine(ConvertToSmall(card));
                     }
                     else
                     {
@@ -135,11 +135,11 @@
             }
         }
 
-        public static string ConvertToChar(Card card)
+        public static string ConvertToSmall(Card card)
         {
-            if(card.Value <= Values.Ten)
+            if (card.Value <= Values.Ten)
             {
-                return card.Value.ToString();
+                return card.ToInt().ToString();
             }
             else
             {
