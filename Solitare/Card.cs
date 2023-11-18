@@ -1,13 +1,10 @@
-﻿namespace Solitare
+﻿namespace Solitaire
 {
     internal class Card
     {
-        private bool revealed = false;
-
         public Values Value { get; private set; }
         public Suits Suit { get; private set; }
-        public string Name { get { return $"{Value} of {Suit}"; } }
-        public bool Revealed { get; set; }
+        public bool Revealed { get; set; } = false;
 
         public Card(Values value, Suits suit)
         {
@@ -15,45 +12,45 @@
             Suit = suit;
         }
 
-        public void Reveal()
+        public void Flip()
         {
-            revealed = true;
+            Revealed = !Revealed;
         }
 
-        public int ToInt()
+        public ConsoleColor GetColor() => Suit switch
         {
-            int value = 0;
-            switch (Value)
-            {
-                case Values.Two:
-                    value = 2; 
-                    break;
-                case Values.Three:
-                    value = 3;
-                    break;
-                case Values.Four:
-                    value = 4;
-                    break;
-                case Values.Five:
-                    value = 5;
-                    break;
-                case Values.Six:
-                    value = 6;
-                    break;
-                case Values.Seven:
-                    value = 7;
-                    break;
-                case Values.Eight:
-                    value = 8;
-                    break;
-                case Values.Nine:
-                    value = 9;
-                    break;
-                case Values.Ten:
-                    value = 10;
-                    break;
-            }
-            return value;
+            Suits.Hearts or Suits.Diamonds => ConsoleColor.Red,
+            Suits.Clubs or Suits.Spades => ConsoleColor.Red
+        };
+
+        public override string ToString()
+        {
+            return $"{Value} of {Suit}";
+        }
+
+        internal enum Suits
+        {
+            Hearts,
+            Diamonds,
+            Clubs,
+            Spades
+        }
+
+        internal enum Values
+        {
+            Ace = 1,
+            Two = 2,
+            Three = 3,
+            Four = 4,
+            Five = 5,
+            Six = 6,
+            Seven = 7,
+            Eight = 8,
+            Nine = 9,
+            Ten = 10,
+            Jack = 11,
+            Queen = 12,
+            King = 13
         }
     }
 }

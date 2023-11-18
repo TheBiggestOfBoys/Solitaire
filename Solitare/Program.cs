@@ -1,4 +1,4 @@
-﻿namespace Solitare
+﻿namespace Solitaire
 {
     internal class Program
     {
@@ -10,25 +10,25 @@
         static void Main()
         {
             // Generate Deck
-            for (int suit = 0; suit <= 3; suit++)
+            foreach (Card.Suits suit in Enum.GetValues(typeof(Card.Suits)))
             {
-                for (int value = 2; value <= 14; value++)
+                foreach (Card.Values value in Enum.GetValues(typeof(Card.Values)))
                 {
-                    deck.Add(new Card((Values)value, (Suits)suit));
+                    deck.Add(new Card(value, suit));
                 }
             }
             Shuffle(deck);
 
             // Set board capacity
-            for (int x = 0; x <= 6; x++)
+            for (int x = 1; x <= 7; x++)
             {
-                board.Add(new List<Card>(x + 1));
+                board.Add(new List<Card>(x));
             }
 
             // Set discard capacity
             for (int x = 0; x <= 3; x++)
             {
-                discard.Add(new List<Card>(x + 1));
+                discard.Add(new List<Card>(x));
             }
 
             // Fill the board
@@ -40,7 +40,7 @@
                     deck.Remove(deck[y]);
                     if (y == x)
                     {
-                        board[x][y].Revealed = true;
+                        board[x][y].Flip();
                     }
                 }
             }
@@ -60,19 +60,12 @@
                 {
                     if (card.Revealed == true)
                     {
-                        if ((card.Suit == Suits.Hearts) || (card.Suit == Suits.Diamonds))
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                        }
-                        if ((card.Suit == Suits.Clubs) || (card.Suit == Suits.Spades))
-                        {
-                            Console.ForegroundColor = ConsoleColor.DarkGray;
-                        }
+                        Console.ForegroundColor = card.GetColor();
                         Console.WriteLine(ConvertToSmall(card));
                     }
                     else
                     {
-                        Console.WriteLine("?");
+                        Console.WriteLine('?');
                     }
                 }
                 Console.WriteLine();
@@ -88,7 +81,7 @@
                 // Displays only the top card
                 if (list.Count == 0)
                 {
-                    Console.WriteLine("#");
+                    Console.WriteLine('#');
                 }
                 else
                 {
@@ -108,15 +101,8 @@
             {
                 foreach (Card card in cardList)
                 {
-                    if ((card.Suit == Suits.Hearts) || (card.Suit == Suits.Diamonds))
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                    }
-                    if ((card.Suit == Suits.Clubs) || (card.Suit == Suits.Spades))
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                    }
-                    Console.WriteLine(card.Name);
+                    Console.ForegroundColor = card.GetColor();
+                    Console.WriteLine(card);
                 }
             }
             Console.ResetColor();
@@ -137,13 +123,13 @@
 
         public static string ConvertToSmall(Card card)
         {
-            if (card.Value <= Values.Ten)
+            if (card.Value <= Card.Values.Ten)
             {
-                return card.ToInt().ToString();
+                return ((int)card.Value).ToString();
             }
             else
             {
-                return card.Name[0].ToString();
+                return card.ToString()[0].ToString();
             }
         }
     }
